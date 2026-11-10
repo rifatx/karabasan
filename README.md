@@ -41,9 +41,13 @@ Open **http://127.0.0.1:8080**. `make web` builds the WASM and copies it into
 wasm-bindgen, npm install, or web framework is needed. Serve over HTTP rather
 than opening `index.html` directly from disk.
 
-Use `?seed=42` for a repeatable session. “hızlı yaz” skips animation; reduced-motion
-preferences enable it automatically. “yeniden” restarts, including during typing.
-The interface supports keyboard input, mobile layouts, and screen-reader labels.
+Use `?seed=42` for a repeatable session. The page is a bare black terminal with
+green text and a locally bundled, raster-style VT323 font. Enter submits input;
+F2 restarts, including during typing. Reduced-motion preferences skip animation.
+The interface supports mobile keyboards and screen-reader labels.
+
+VT323 is by Peter Hull / The VT323 Project Authors, distributed under the SIL
+Open Font License 1.1; see `web/VT323-OFL.txt`. No external font service is used.
 
 ## Verification
 

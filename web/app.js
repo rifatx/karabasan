@@ -4,14 +4,13 @@ const $ = id => document.getElementById(id);
 const terminal = $("terminal");
 const transcript = $("transcript");
 const answer = $("answer");
-const instant = $("instant");
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const status = $("status");
 const form = $("chat-form");
 let engine;
 let generation = 0;
 let busy = true;
 let finished = false;
-instant.checked = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const bottom = () => { terminal.scrollTop = terminal.scrollHeight; };
@@ -26,7 +25,6 @@ function append(text, className = "") {
 function lock(value) {
   busy = value;
   answer.disabled = value || finished;
-  $("send").disabled = value || finished;
 }
 async function render(turn, token) {
   lock(true);
@@ -39,15 +37,15 @@ async function render(turn, token) {
     line.className = "line";
     line.setAttribute("aria-hidden", "true");
     transcript.append(line);
-    if (instant.checked) line.textContent = data.text;
+    if (reducedMotion.matches) line.textContent = data.text;
     else {
       for (const c of data.text) {
         if (token !== generation) return;
         line.textContent += c;
         bottom();
-        if (!instant.checked) await wait(12);
+        if (!reducedMotion.matches) await wait(12);
       }
-      if (!instant.checked) await wait(data.delay_ms);
+      if (!reducedMotion.matches) await wait(data.delay_ms);
     }
     line.remove();
     append(data.text);
@@ -87,9 +85,16 @@ form.addEventListener("submit", event => {
   try { render(engine.submit(input), generation).catch(fail); }
   catch (error) { fail(error); }
 });
-$("restart").addEventListener("click", restart);
+document.addEventListener("keydown", event => {
+  if (event.key === "F2" && engine) {
+    event.preventDefault();
+    restart();
+  }
+});
+terminal.addEventListener("click", () => {
+  if (!busy && !finished && !window.getSelection()?.toString()) answer.focus();
+});
 try {
   engine = await Engine.load();
-  $("restart").disabled = false;
   restart();
 } catch (error) { fail(error); }
