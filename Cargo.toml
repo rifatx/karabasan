@@ -1,0 +1,19 @@
+[package]
+name = "karabasan"
+version = "0.1.0"
+edition = "2021"
+description = "A Turkish DOS chat tribute, for terminals and browsers"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[[bin]]
+name = "karabasan"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

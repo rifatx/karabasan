@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101510">
+  <title>karabasan.exe — sohbet</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <span>karabasan.exe <span class="muted">/ bir DOS hatırası</span></span>
+      <button id="restart" type="button" disabled>yeniden</button>
+    </header>
+    <p class="notice">Eski usul, kaba saba bir Türkçe sohbet. Küfür içerir.</p>
+    <section id="terminal" aria-label="Sohbet terminali" tabindex="0">
+      <div id="transcript" role="log" aria-live="polite" aria-relevant="additions"></div>
+      <form id="chat-form" autocomplete="off">
+        <label id="prompt" class="sr-only" for="answer">yükleniyor…</label>
+        <span aria-hidden="true">&gt;</span>
+        <input id="answer" name="answer" type="text" maxlength="256"
+          spellcheck="false" autocapitalize="off" enterkeyhint="send" disabled>
+        <button id="send" type="submit" disabled>↵<span class="sr-only"> gönder</span></button>
+      </form>
+    </section>
+    <footer>
+      <span id="status" role="status">Rust / WebAssembly yükleniyor…</span>
+      <label><input id="instant" type="checkbox"> hızlı yaz</label>
+      <span><kbd>/quit</kbd> çıkış</span>
+    </footer>
+  </main>
+</body>
+</html>
